@@ -1,0 +1,250 @@
+package fullcode;
+
+import org.openqa.selenium.WebElement;
+
+import BaseClass.Base;
+
+public class FULLCODE extends Base {
+	
+	public static void main(String[] args) {
+		
+		setup();
+		openurl("https://automationexercise.com/");
+		
+		// ✅ Home Page check
+		verifyPage("Home Page", "//a[normalize-space()='Signup / Login']");
+		
+		WebElement signinBTN = findElementByXpath("//a[normalize-space()='Signup / Login']");
+		click(signinBTN);
+		
+		// ✅ Registration Page check
+		verifyPage("Registration Page", "//button[normalize-space()='Signup']");
+		
+		WebElement Name = findElementByXpath("//input[@placeholder='Name']");
+		elementSendKeys(Name, "Bhuvi");
+		
+		WebElement email = findElementByXpath("//input[@data-qa='signup-email']");
+		elementSendKeys(email, "Bhuvi-124@gmail.com");
+		
+		WebElement signBTN = findElementByXpath("//button[normalize-space()='Signup']");
+		click(signBTN);
+		
+		WebElement mr = findElementByXpath("//input[@id='id_gender1']");
+		click(mr);
+		
+		WebElement pass = findElementByXpath("//input[@id='password']");
+		elementSendKeys(pass, "4948");  
+		
+		Base base = new Base();
+		WebElement scl2 = findElementByXpath("//label[normalize-space()='Date of Birth']");
+		base.scrollToElement(scl2);
+		
+		WebElement days = findElementByid("days");
+		base.dropdownByIndex(days, 7);
+		
+		WebElement months = findElementByid("months");
+		base.dropdownByValue(months, "6");
+		
+		WebElement years = findElementByid("years");
+		base.dropdownByVisibleText(years, "2000");
+		
+		WebElement scroll = findElementByXpath("//b[normalize-space()='Address Information']"); 
+		base.scrollToElement(scroll);
+		
+		WebElement Fname = findElementByXpath("//input[@id='first_name']");
+		elementSendKeys(Fname, "BHuvi");
+		
+		WebElement Lname = findElementByXpath("//input[@id='last_name']");
+		elementSendKeys(Lname, "M");
+		
+		WebElement Address = findElementByXpath("//input[@id='address1']");
+		elementSendKeys(Address, "Mangadu");
+		
+		WebElement state = findElementByXpath("//input[@id='state']");
+		elementSendKeys(state, "Tamilnadu");
+		
+		WebElement city = findElementByXpath("//input[@id='city']");
+		elementSendKeys(city, "Salem");
+		
+		WebElement pin = findElementByXpath("//input[@id='zipcode']");
+		elementSendKeys(pin, "600154");
+		
+		WebElement Mnum = findElementByXpath("//input[@id='mobile_number']");
+		elementSendKeys(Mnum, "60015401234");
+		
+		WebElement CREAted = findElementByXpath("//button[normalize-space()='Create Account']");
+		click(CREAted);
+		
+		WebElement cnt = findElementByXpath("//a[@class='btn btn-primary']");	
+		click(cnt);
+		
+		base.clearPopup();
+		
+		WebElement logout = findElementByXpath("//a[@href='/logout']");	
+		click(logout);
+		
+		// ✅ Login Page check
+		verifyPage("Login Page", "//button[normalize-space()='Login']");
+		
+		// Login Scenario
+		WebElement signinBN = findElementByXpath("//a[normalize-space()='Signup / Login']");
+		click(signinBN);	
+		
+		WebElement loginmail = findElementByXpath("//input[@data-qa='login-email']");
+		elementSendKeys(loginmail, "Bhu///--@gamil.com");
+		
+		WebElement loginpass = findElementByXpath("//input[@placeholder='Password']");	
+		elementSendKeys(loginpass, "4948");
+		
+		WebElement loginBTn = findElementByXpath("//button[normalize-space()='Login']");
+		click(loginBTn);
+		
+		// ✅ Subscription verify
+		verifyPage("Subscription EMail", "//h2[normalize-space()='Subscription']");
+		
+        base.scrollToBottom();            
+		
+		WebElement subscription = findElementByXpath("//input[@id='susbscribe_email']");
+		elementSendKeys(subscription, "bhu143@gmail.com");
+		
+		WebElement subCL = findElementByXpath("//i[@class='fa fa-arrow-circle-o-right']");
+		click(subCL);
+		takeScreenshot("subscription verifiy");
+		System.out.println("Subscription Verified Successfully");
+		
+		WebElement scrollup = findElementByXpath("//img[@alt='Website for automation practice']");
+		base.scrollToElement(scrollup);
+		
+		// ✅ Product Page check
+		WebElement productBTN = findElementByXpath("//a[@href='/products']");
+		click(productBTN);
+		verifyPage("Product Page", "//h2[@class='title text-center']");
+		
+		WebElement SearchBTN = findElementByXpath("//input[@id='search_product']");
+		elementSendKeys(SearchBTN, "jeans");
+		
+		WebElement Btn = findElementByXpath("//button[@id='submit_search']");
+		click(Btn);
+		
+		WebElement Scl = findElementByXpath("//h2[@class='title text-center']");
+		base.scrollToElement(Scl);
+		
+		WebElement first = findElementByXpath("(//a[text()='View Product'])[1]");
+		click(first);
+		
+		WebElement sec = findElementByXpath("//button[@type='button']");
+		click(sec);
+		takeScreenshot("First Product");
+		
+		WebElement ConShp = findElementByXpath("//button[text()='Continue Shopping']");
+		click(ConShp);
+		
+		driver.navigate().back();
+		
+		WebElement Jean = findElementByXpath("//a[@href='/product_details/35']");
+		click(Jean);
+		
+		WebElement JeanCart = findElementByXpath("//button[@type='button']");
+		click(JeanCart);
+		takeScreenshot("Sec Product");
+	
+		WebElement JeanCS = findElementByXpath("//button[text()='Continue Shopping']");
+		click(JeanCS);
+		
+		driver.navigate().back();
+		
+		WebElement Third = findElementByXpath("//a[@href='/product_details/37']");
+		click(Third);
+		
+		WebElement ThirdJean = findElementByXpath("//button[@type='button']");
+		click(ThirdJean);
+		takeScreenshot("THird Product");
+		
+		WebElement THirdCS = findElementByXpath("//button[text()='Continue Shopping']");
+		click(THirdCS);
+		
+		driver.navigate().back();
+		
+		WebElement cart = findElementByXpath("//a[normalize-space()='Cart']");
+		click(cart);
+		
+		// ✅ Cart Page check
+		verifyPage("Cart Page", "//a[@class='btn btn-default check_out']");
+		
+		WebElement chkout = findElementByXpath("//a[@class='btn btn-default check_out']");
+		click(chkout);
+		
+		WebElement msg = findElementByname("message");
+		elementSendKeys(msg, "Im Testing a Automation Exercise");
+		
+		WebElement Placeorder = findElementByXpath("//a[text()='Place Order']");
+		click(Placeorder);
+		
+		WebElement scrl = findElementByXpath("//button[@id='submit']"); 
+		base.scrollToElement(scrl);
+		
+		WebElement Cardname = findElementByname("name_on_card");
+		elementSendKeys(Cardname, "Bhu");
+		
+		WebElement Cardno = findElementByname("card_number");
+		elementSendKeys(Cardno, "639098987654000");
+		
+		WebElement Cvc = findElementByname("cvc");
+		elementSendKeys(Cvc, "777");
+		
+		WebElement MM = findElementByname("expiry_month");
+		elementSendKeys(MM, "06");
+		
+		WebElement YEAR = findElementByname("expiry_year");
+		elementSendKeys(YEAR, "2026");
+		
+		WebElement submit = findElementByXpath("//button[text()='Pay and Confirm Order']");
+		click(submit);
+		
+		takeScreenshot("Order Placed");
+		
+		WebElement invoice = findElementByXpath("//a[text()='Download Invoice']");
+		click(invoice);
+		takeScreenshot("Invoice");
+		
+		WebElement conti = findElementByXpath("//a[text()='Continue']");
+		click(conti);
+		
+		WebElement cntus = findElementByXpath("//a[normalize-space()='Contact us']");
+		click(cntus);
+		
+		// ✅ Contact Us Page check
+		verifyPage("Contact Us Page", "//h2[normalize-space()='Get In Touch']");
+		
+		WebElement Cname = findElementByname("name");
+		elementSendKeys(Cname, "Bhu1");
+		
+		WebElement Cemail = findElementByname("email");
+		elementSendKeys(Cemail, "Bhu1@gamil.com");
+		
+		WebElement sub = findElementByname("subject");
+		elementSendKeys(sub, "Testing Completed");
+		
+		WebElement mesg = findElementByid("message");
+		elementSendKeys(mesg, "Successfully completed the Automation Testing Project");
+		
+		WebElement submiT = findElementByname("submit");
+		click(submiT);
+		
+		base.alertuse(submiT);
+		
+		takeScreenshot("CNTusForm");
+		
+		WebElement Home = findElementByXpath("//i[@class='fa fa-angle-double-left']");
+		click(Home);	
+		
+		WebElement LOGOUT = findElementByXpath("//a[normalize-space()='Logout']");
+		click(LOGOUT);
+		
+		// ✅ Logout Check
+		verifyPage("Logout Successfully", "//h2[normalize-space()='Login to your account']");
+					
+		
+		driver.close();
+	}
+}
