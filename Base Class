@@ -1,0 +1,211 @@
+package BaseClass;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Base {
+    public static WebDriver driver;
+
+    // ================== SETUP ==================
+    public static void setup() {
+        if (driver == null) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-save-password-bubble");
+
+            Map<String, Object> prefs = new HashMap<>();
+            prefs.put("profile.password_manager_enabled", false);
+            prefs.put("credentials_enable_service", false);
+            prefs.put("autofill.profile_enabled", false);
+            prefs.put("autofill.credit_card_enabled", false);
+            options.setExperimentalOption("prefs", prefs);
+
+            driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // ✅ implicit wait
+        }
+    }
+
+    public static void openurl(String url) {
+        driver.get(url);
+    }
+
+    // ================== WAIT METHOD ==================
+    public static void waitFor(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ================== FIND ELEMENTS ==================
+    public static WebElement findElementByXpath(String locator) {
+        return driver.findElement(By.xpath(locator));
+    }
+
+    public static WebElement findElementByid(String locator) {
+        return driver.findElement(By.id(locator));
+    }
+
+    public static WebElement findElementByname(String locator) {
+        return driver.findElement(By.name(locator));
+    }
+
+    // ================== ACTIONS ==================
+    public static void click(WebElement element) {
+        
+    	try {
+    		
+    		if (element.isEnabled()) {
+    			element.click();
+                waitFor(1);
+				
+			} else {
+
+				System.out.println("element is not enabled");
+				
+				
+			}
+    		  // ✅ wait 2 seconds after click
+		} catch (Exception e) {
+			
+			
+			
+		}
+    	
+    	
+    	
+    }
+
+    public static void elementSendKeys(WebElement element, String name) {
+        element.sendKeys(name);
+        waitFor(1);  // ✅ wait 2 seconds after typing
+    }
+
+    // ================== ALERT ==================
+    public void alertuse(WebElement element) {
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+        waitFor(1);
+    }
+
+    public void alertdecline(WebElement element) {
+        Alert alert = driver.switchTo().alert();
+        alert.dismiss();
+        waitFor(1);
+    }
+
+    // ================== DROPDOWN ==================
+    public void dropdownByIndex(WebElement element, int index) {
+        new Select(element).selectByIndex(index);
+        waitFor(1);
+    }
+
+    public void dropdownByValue(WebElement element, String value) {
+        new Select(element).selectByValue(value);
+        waitFor(1);
+    }
+
+    public void dropdownByVisibleText(WebElement element, String text) {
+        new Select(element).selectByVisibleText(text);
+        waitFor(1);
+    }
+
+    // ================== SCROLL ==================
+    public void scrollByPixel(int x, int y) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(" + x + "," + y + ");");
+        waitFor(1);
+    }
+
+    public void scrollToElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        waitFor(1);
+    }
+
+    public void scrollToBottom() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+        waitFor(1);
+    }
+
+    // ================== SCREENSHOT ==================
+    public static void takeScreenshot(String fileName) {
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(srcFile, new File("C:\\AutomationTesting\\Screenshots\\" + fileName + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        waitFor(1);
+    }
+
+    // ================== NAVIGATION ==================
+    public void navigateBack() {
+        driver.navigate().back();
+        waitFor(1);
+    }
+
+    public void navigateForward() {
+        driver.navigate().forward();
+        waitFor(1);
+    }
+
+    public void refreshPage() {
+        driver.navigate().refresh();
+        waitFor(1);
+    }
+
+    public void clearPopup() {
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        waitFor(1);
+    }
+
+    public static void teardown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
+
+    // ================== PAGE VISIBILITY CHECK ==================
+    public static void verifyPage(String pageName, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            if (element.isDisplayed()) {
+                System.out.println(pageName + " is visible ✅");
+            } else {
+                System.out.println(pageName + " is NOT visible ❌");
+            }
+        } catch (Exception e) {
+            System.out.println(pageName + " is NOT visible ❌ (Exception)");
+        }
+        waitFor(1);
+    }
+}
